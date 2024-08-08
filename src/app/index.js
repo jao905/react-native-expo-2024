@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Aplicativo Pronto para Usar😊😊</Text>
+      <Text style={styles.title}>Aplicativo Pronto para Usar😊😊</Text>
       <StatusBar style="auto" />
     </View>
   );
@@ -17,4 +17,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  title:{
+    fontFamily: "bold",
+    fontSize: 20,
+  }
 });
