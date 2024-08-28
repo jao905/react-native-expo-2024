@@ -6,9 +6,9 @@ const FontContext = createContext({});
 
 export function FontProvider({ children }) {
   const [loaded, error] = useFonts({
-    // regular: require("../../assets/fonts/Montserrat-Regular.ttf"),
-    // bold: require("../../assets/fonts/Montserrat-Bold.ttf"),
-     italic : require ("../../assets/fonts/Montserrat-Italic.ttf")
+    regular: require("../../assets/fonts/Montserrat-Regular.ttf"),
+    bold: require("../../assets/fonts/Montserrat-Bold.ttf"),
+    //  italic : require ("../../assets/fonts/Montserrat-Italic.ttf")
   });
 
   if (!loaded && !error) {
