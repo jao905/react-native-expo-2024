@@ -16,7 +16,8 @@ const StackLayout = () => {
         router.back();
       }
     } else {
-      if (user?.autenticated) {
+      if (user?.authenticated) {
+        console.log("StackLayout user: ", user.user.id);
         router.push("(protected)");
       }
     }
