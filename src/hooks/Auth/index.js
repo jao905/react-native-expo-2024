@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useUsersDatabase } from "../../database/useUsersDatabase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ActivityIndicator, View, Text } from "react-native";
 
 const AuthContext = createContext({});
 
@@ -16,12 +18,35 @@ export function AuthProvider({ children }) {
     role: null,
   });
 
-  const {authUser} = useUsersDatabase(); 
+  const { authUser } = useUsersDatabase();
+
+  useEffect(() => {
+    const loadStoragedData = async () => {
+      const storagedUser = await AsyncStorage.getItem("@paymnet:user");
+      if (storagedUser) {
+        setUser({
+          authenticated: true,
+          user: JSON.parse(storagedUser),
+          role: JSON.parse(storagedUser).role,
+        });
+       } else {
+          setUser({
+            authenticated: false,
+            user: null,
+            role: null,
+          });
+      }
+    };
+    loadStoragedData();
+  }, []);
+
+  useEffect(() => {
+    console.log("AuthProvider:", user);
+  }, [user]);
 
   const signIn = async ({ email, password }) => {
     const response = await authUser({ email, password });
     console.log(response);
-
 
     if (!response) {
       setUser({
@@ -32,24 +57,32 @@ export function AuthProvider({ children }) {
       throw new Error("Usuário ou senha inválidos");
     }
 
-      setUser({
-        authenticated: true,
-        user: response,
-        role: response.role,
-      });
+    await AsyncStorage.setItem("@paymnet:user", JSON.stringify(response));
+
+    setUser({
+      authenticated: true,
+      user: response,
+      role: response.role,
+    });
   };
 
   const signOut = async () => {
-    setUser({
-      authenticated: false,
-      user: null,
-      role: null,
-    });
+    await AsyncStorage.removeItem("@paymnet:user");
+    setUser({});
   };
 
   useEffect(() => {
     console.log("AuthProvider:", user);
   }, [user]);
+
+  if (user?.authenticated === null) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text style={{ fontSize: 28, marginTop: 15 }}>Caregando Dados do Usuário</Text>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <AuthContext.Provider value={{ user, signIn, signOut }}>
