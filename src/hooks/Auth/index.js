@@ -29,25 +29,19 @@ export function AuthProvider({ children }) {
           user: JSON.parse(storagedUser),
           role: JSON.parse(storagedUser).role,
         });
-       } else {
-          setUser({
-            authenticated: false,
-            user: null,
-            role: null,
-          });
+      } else {
+        setUser({
+          authenticated: false,
+          user: null,
+          role: null,
+        });
       }
     };
     loadStoragedData();
   }, []);
 
-  useEffect(() => {
-    console.log("AuthProvider:", user);
-  }, [user]);
-
   const signIn = async ({ email, password }) => {
     const response = await authUser({ email, password });
-    console.log(response);
-
     if (!response) {
       setUser({
         authenticated: false,
@@ -71,14 +65,12 @@ export function AuthProvider({ children }) {
     setUser({});
   };
 
-  useEffect(() => {
-    console.log("AuthProvider:", user);
-  }, [user]);
-
   if (user?.authenticated === null) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text style={{ fontSize: 28, marginTop: 15 }}>Caregando Dados do Usuário</Text>
+        <Text style={{ fontSize: 28, marginTop: 15 }}>
+          Caregando Dados do Usuário
+        </Text>
         <ActivityIndicator size="large" color="#0000ff" />
       </View>
     );
