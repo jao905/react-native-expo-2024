@@ -20,6 +20,8 @@ export function AuthProvider({ children }) {
 
   const signIn = async ({ email, password }) => {
     const response = await authUser({ email, password });
+    console.log(response);
+
 
     if (!response) {
       setUser({
@@ -27,13 +29,14 @@ export function AuthProvider({ children }) {
         user: null,
         role: null,
       });
-    } else {
+      throw new Error("Usuário ou senha inválidos");
+    }
+
       setUser({
         authenticated: true,
         user: response,
         role: response.role,
       });
-    }
   };
 
   const signOut = async () => {
