@@ -29,7 +29,6 @@ export default function App() {
       // router.replace("/");
     } catch (error) {
       Alert.alert("Erro", error.message); 
-      // NAO FUNCIUONOU
       console.log(error);
     }
   };
