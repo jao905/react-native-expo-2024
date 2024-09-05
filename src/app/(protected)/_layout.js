@@ -37,7 +37,7 @@ function CustomDrawerContent(props) {
             padding: 10,
           }}
         >
-          {user.user.nome}
+          {user?.user?.nome}
         </Text>
       </View>
       <DrawerContentScrollView {...props}>
