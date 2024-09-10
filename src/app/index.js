@@ -70,7 +70,7 @@ export default function App() {
         onPress={handleEntrarSuper}
       />
       <Button title="Sobre" onPress={() => router.push("/about")} />
-      <Button
+      <Button 
         title="Sair do Aplicativo"
         onPress={() => BackHandler.exitApp()}
       />
