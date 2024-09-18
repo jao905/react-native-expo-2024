@@ -2,11 +2,11 @@ import { StatusBar } from "expo-status-bar";
 import {
   Alert,
   BackHandler,
-  Button,
   StyleSheet,
   Text,
   TextInput,
   View,
+  TouchableOpacity,
 } from "react-native";
 import { useAuth } from "../hooks/Auth";
 import { router } from "expo-router";
@@ -14,12 +14,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 
 export default function App() {
-  const { signIn, signOut } = useAuth();
+  const { signIn } = useAuth();
   const [email, setEmail] = useState("super@email.com");
   const [password, setPassword] = useState("A123456a!");
   const [passwordVisibility, setPasswordVisibility] = useState(false);
 
-  const tooglePasswordVisibility = () => {
+  const togglePasswordVisibility = () => {
     setPasswordVisibility(!passwordVisibility);
   };
 
@@ -28,17 +28,17 @@ export default function App() {
       await signIn({ email, password });
       // router.replace("/");
     } catch (error) {
-      Alert.alert("Erro", error.message); 
+      Alert.alert("Erro", error.message);
       console.log(error);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Aplicativo Pronto para Usar😊😊</Text>
+      <Text style={styles.title}>Aplicativo Pronto para Usar</Text>
 
       <View style={styles.inputbox}>
-        <Ionicons name="mail-open-outline" size={20} color="black" />
+        <Ionicons name="mail-open-outline" size={20} color="#666" />
         <TextInput
           style={styles.emailinput}
           placeholder="E-mail"
@@ -48,7 +48,7 @@ export default function App() {
       </View>
 
       <View style={styles.inputbox}>
-        <Ionicons name="lock-closed-outline" size={20} color="black" />
+        <Ionicons name="lock-closed-outline" size={20} color="#666" />
         <TextInput
           style={styles.emailinput}
           placeholder="Senha"
@@ -56,24 +56,30 @@ export default function App() {
           onChangeText={setPassword}
           secureTextEntry={passwordVisibility}
         />
-        <Ionicons
-          name={passwordVisibility ? "eye-off-outline" : "eye-outline"}
-          size={20}
-          color="black"
-          onPress={tooglePasswordVisibility}
-        />
+        <TouchableOpacity onPress={togglePasswordVisibility}>
+          <Ionicons
+            name={passwordVisibility ? "eye-off-outline" : "eye-outline"}
+            size={20}
+            color="#666"
+          />
+        </TouchableOpacity>
       </View>
 
-      <Button
-        style={styles.button}
-        title="Entrar"
-        onPress={handleEntrarSuper}
-      />
-      <Button title="Sobre" onPress={() => router.push("/about")} />
-      <Button 
-        title="Sair do Aplicativo"
+      <TouchableOpacity style={styles.smallButton} onPress={handleEntrarSuper}>
+        <Text style={styles.smallButtonText}>Entrar</Text>
+      </TouchableOpacity>
+      
+      <TouchableOpacity style={styles.smallButton} onPress={() => router.push("/about")}>
+        <Text style={styles.smallButtonText}>Sobre</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity 
+        style={styles.smallButton}
         onPress={() => BackHandler.exitApp()}
-      />
+      >
+        <Text style={styles.smallButtonText}>Sair do Aplicativo</Text>
+      </TouchableOpacity>
+      
       <StatusBar style="auto" />
     </View>
   );
@@ -82,28 +88,50 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f0f0f0",
     alignItems: "center",
     justifyContent: "center",
-    gap: 15,
+    padding: 20,
   },
   title: {
     fontFamily: "bold",
-    fontSize: 20,
+    fontSize: 24,
+    marginBottom: 20,
+    color: "#333",
   },
   inputbox: {
     flexDirection: "row",
-    gap: 10,
-    marginVertical: 10,
-    marginHorizontal: 40,
     alignItems: "center",
+    marginVertical: 10,
+    marginHorizontal: 20,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 19,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 3, // Para Android
   },
   emailinput: {
     flex: 1,
     fontFamily: "regular",
-    fontSize: 20,
+    fontSize: 18,
+    paddingHorizontal: 10,
   },
-  button: {
-    width: "100%",
+  smallButton: {
+    backgroundColor: "gray",
+    borderRadius: 25,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    marginVertical: 5,
+    width: "80%", // Largura ajustada
+    alignItems: "center",
+  },
+  smallButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
