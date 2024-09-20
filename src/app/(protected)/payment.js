@@ -4,6 +4,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { TouchableOpacity } from "react-native";
 
 export default function Payment() {
   const [valor, setValor] = useState("0,00");
@@ -161,7 +162,7 @@ export default function Payment() {
 
   return (
     <View style={styles.content}>
-      <Text>Inserir Pagamentos</Text>
+      <Text  style={styles.title}>Inserir Pagamentos</Text>
       <View style={styles.inputView}>
         <Ionicons name="wallet-outline" size={24} color="black" />
         <TextInput
@@ -211,9 +212,15 @@ export default function Payment() {
         />
       </View>
       <View style={styles.contentButtons}>
-        <Button title="Salvar" />
-        <Button title="Continuar" />
-        <Button title="Cancelar" onPress={() => router.back()} />
+        <TouchableOpacity style={[styles.button, styles.saveButton]}>
+          <Text style={styles.buttonText}>Salvar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.button, styles.continueButton]}>
+          <Text style={styles.buttonText}>Continuar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={() => router.back()}>
+          <Text style={styles.buttonText}>Cancelar</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -225,11 +232,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 10,
+    backgroundColor: "#FAFAFA", 
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: "#212121",
   },
   inputView: {
     borderColor: "black",
     borderWidth: 1,
-    width: "80%", //AUMENTAR A LARGURA
+    width: "90%", //AUMENTAR A LARGURA
     margin: 10,
     borderRadius: 10,
     alignItems: "center",
@@ -238,10 +252,30 @@ const styles = StyleSheet.create({
   },
   contentButtons: {
     padding: 10,
-    gap: 10,
+    gap: 30,
     justifyContent: "space-around",
     flexDirection: "row",
-    borderRadius: "50%",
+    width: "80%",
+  },
+  button: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+    alignItems: "center",
+  },
+  saveButton: {
+    backgroundColor: "gray",
+  },
+  continueButton: {
+    backgroundColor: "gray",
+  },
+  cancelButton: {
+    backgroundColor: "gray",
+  },
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   inputValor: {
     flex: 1,
