@@ -1,5 +1,4 @@
-
-  import { useState } from "react";
+import { useState } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import PagerView from "react-native-pager-view";
 
@@ -17,19 +16,31 @@ export function Banner() {
         style={styles.content}
         onPageSelected={onPageSelected}
       >
+        {/* Banner 1 com imagem */}
         <View key="1" style={styles.page}>
-        <Image source={{ uri: 'https://cptstatic.s3.amazonaws.com/imagens/enviadas/materias/materia29473/pastagem-cpt.jpg' }} style={styles.image} /> 
-
+          <Image
+            style={styles.image}
+            source={{ uri: "https://cptstatic.s3.amazonaws.com/imagens/enviadas/materias/materia29473/pastagem-cpt.jpg" }}
+          />
         </View>
 
+        {/* Banner 2 com imagem */}
         <View key="2" style={styles.page}>
-        <Image source={{ uri: 'https://www.sementesbonamigo.com.br/wp-content/uploads/2023/08/formacao-pastagens-jeito-certo-e1691261839591-1.jpg' }} style={styles.image} />
+          <Image
+            style={styles.image}
+            source={{ uri: "https://www.sementesbonamigo.com.br/wp-content/uploads/2023/08/formacao-pastagens-jeito-certo-e1691261839591-1.jpg" }}
+          />
         </View>
 
+        {/* Banner 3 com imagem */}
         <View key="3" style={styles.page}>
-        <Image source={{ uri: 'https://pastocomciencia.com.br/wp-content/uploads/2019/08/IMG_3975.jpg' }} style={styles.image} />
+          <Image
+            style={styles.image}
+            source={{ uri: "https://pastocomciencia.com.br/wp-content/uploads/2019/08/IMG_3975.jpg" }}
+          />
         </View>
       </PagerView>
+
       <View style={styles.bulletContent}>
         <View style={[styles.bullet, page === 0 && styles.activeBullet]}></View>
         <View style={[styles.bullet, page === 1 && styles.activeBullet]}></View>
@@ -42,36 +53,30 @@ export function Banner() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
-    padding: 20,
   },
   content: {
-    marginTop: 20,
-    height: 300, // Ajustar a altura para acomodar a imagem
-    width: "100%",
+    marginTop: 20, // Ajusta o espaçamento do topo
+    height: 200, // Altura do banner
+    width: "95%", // Largura ajustada para não colar nas laterais
+    alignSelf: "center", // Centraliza o banner horizontalmente
+    borderRadius: 20, // Arredondamento
+    overflow: "hidden", // Garante que a imagem siga o arredondamento
   },
   page: {
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff",
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 5,
-    overflow: "hidden", // Garantir que a imagem não ultrapasse os limites do banner
   },
   image: {
-    width: "100%",
-    height: "100%", // Ajustar a altura da imagem para ocupar todo o banner
-    resizeMode: "cover",
+    width: "100%", // Preenche o banner horizontalmente
+    height: "100%", // Preenche o banner verticalmente
+    resizeMode: "cover", // Ajusta a imagem sem distorção
+    borderRadius: 20, // Arredondamento da imagem
   },
   bulletContent: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
   },
   bullet: {
     width: 10,
