@@ -11,14 +11,15 @@ import {
   View,
 } from "react-native";
 import { z } from "zod";
+import {useAuth} from "../../hooks/Auth/index"
 
 const paymentSchema = z.object({
-valor_pago: z.number().gt(0),  
-user_id: z.number().int().positive(),
-user_cadastro: z.number().int().positive(),
-data_pagamento: z.date(),
-observacao: z.string()
-})
+  valor_pago: z.number().gt(0),
+  user_id: z.number().int().positive(),
+  user_cadastro: z.number().int().positive(),
+  data_pagamento: z.date(),
+  observacao: z.string(),
+});
 
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -173,6 +174,7 @@ export default function Payment() {
   const [viewCalendar, setViewCalendar] = useState(false);
   const [observacao, setObservacao] = useState("");
   const valueRef = useRef();
+  const {user} = useAuth();
 
   const handleCalendar = (event, selectedDate) => {
     setData(selectedDate);
@@ -198,6 +200,36 @@ export default function Payment() {
       setValor(valorPtBr);
     } catch (error) {
       setValor("0,00");
+    }
+  };
+
+  const convertValue = (value) => {
+    try {
+      let valorLimpo = value.replace(",", "").replace(".", "");
+      let valorConvertido = Number(valorLimpo) / 100;
+      if (valorConvertido === 0 || isNaN(valorConvertido)) {
+        return 0
+      }
+      return valorConvertido
+    } catch (error) {
+      return valorConvertido
+    }
+  };
+
+  const handleSubmit = async () => {
+    const payment = {
+      user_id: íd,
+      user_cadastro: Number (user.user.id),
+      valor_pago: convertValue(valor),
+      data_pagamento: data,
+      observacao,
+    };
+
+    try {
+      const result = await paymentSchema.parseAsync(payment)  
+      console.log(result);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -257,9 +289,10 @@ export default function Payment() {
           />
         </View>
         <View style={styles.contentButtons}>
-          <TouchableOpacity style={[styles.button, styles.saveButton]}>
+          <TouchableOpacity style={[styles.button, styles.saveButton]} onPress={handleSubmit}>
             <Text style={styles.buttonText}>Salvar</Text>
           </TouchableOpacity>
+
           <TouchableOpacity style={[styles.button, styles.continueButton]}>
             <Text style={styles.buttonText}>Continuar</Text>
           </TouchableOpacity>
