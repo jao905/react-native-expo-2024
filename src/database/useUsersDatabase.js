@@ -1,5 +1,5 @@
- import { useSQLiteContext } from "expo-sqlite";
- 
+import { useSQLiteContext } from "expo-sqlite";
+
 export function useUsersDatabase() {
   const database = useSQLiteContext();
 
@@ -16,7 +16,20 @@ export function useUsersDatabase() {
     }
   }
 
+  async function getAllUsers() {
+    try {
+      const result = await database.getAllAsync(`
+        SELECT id, nome FROM users
+        `);
+      return result;
+    } catch (error) {
+      console.error("useUsersDatabase getAllUsers error: ", error);
+      throw error;
+    }
+  }
+
   return {
-  authUser,
-  }; 
+    authUser,
+     getAllUsers,
+  };
 }

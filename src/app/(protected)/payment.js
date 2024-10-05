@@ -10,8 +10,10 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { z } from "zod";
-import {useAuth} from "../../hooks/Auth/index"
+import { set, z } from "zod";
+import { usePaymentsDatabase } from "../../database/usePaymentsDataBase";
+import { useUsersDatabase } from "../../database/useUsersDatabase";
+import { useAuth } from "../../hooks/Auth/index";
 
 const paymentSchema = z.object({
   valor_pago: z.number().gt(0),
@@ -27,154 +29,15 @@ import { TouchableOpacity } from "react-native";
 
 export default function Payment() {
   const [valor, setValor] = useState("0,00");
-  const [sugestoes, setSugestoes] = useState([
-    {
-      id: 1,
-      nome: "Violante Trengrove",
-    },
-    {
-      id: 2,
-      nome: "Helen Broun",
-    },
-    {
-      id: 3,
-      nome: "Olly Redpath",
-    },
-    {
-      id: 4,
-      nome: "Christos Joul",
-    },
-    {
-      id: 5,
-      nome: "Kimble Passion",
-    },
-    {
-      id: 6,
-      nome: "Anne-corinne Justham",
-    },
-    {
-      id: 7,
-      nome: "Trudy Drewet",
-    },
-    {
-      id: 8,
-      nome: "Cathleen Whitesel",
-    },
-    {
-      id: 9,
-      nome: "Lora Baumann",
-    },
-    {
-      id: 10,
-      nome: "Olivette Ambrogini",
-    },
-    {
-      id: 11,
-      nome: "Olympe Radborn",
-    },
-    {
-      id: 12,
-      nome: "Chrissie Hammor",
-    },
-    {
-      id: 13,
-      nome: "Durward Cattle",
-    },
-    {
-      id: 14,
-      nome: "Dimitry McConnell",
-    },
-    {
-      id: 15,
-      nome: "Lindie Fitzackerley",
-    },
-    {
-      id: 16,
-      nome: "Jules Treleaven",
-    },
-    {
-      id: 17,
-      nome: "Faustine Hembrow",
-    },
-    {
-      id: 18,
-      nome: "Ernest Scrimgeour",
-    },
-    {
-      id: 19,
-      nome: "Nicola Bohler",
-    },
-    {
-      id: 20,
-      nome: "Emmy Hryskiewicz",
-    },
-    {
-      id: 21,
-      nome: "Carlotta Feaks",
-    },
-    {
-      id: 22,
-      nome: "Fifine Whitmore",
-    },
-    {
-      id: 23,
-      nome: "Aylmer Drysdell",
-    },
-    {
-      id: 24,
-      nome: "Theressa Gaukrodge",
-    },
-    {
-      id: 25,
-      nome: "Maggee Hake",
-    },
-    {
-      id: 26,
-      nome: "Doroteya Reany",
-    },
-    {
-      id: 27,
-      nome: "Janifer Eloi",
-    },
-    {
-      id: 28,
-      nome: "Hilarius Dummer",
-    },
-    {
-      id: 29,
-      nome: "Cammie Dibdin",
-    },
-    {
-      id: 30,
-      nome: "Jarret Stratton",
-    },
-    {
-      id: 31,
-      nome: "Deeann McSperron",
-    },
-    {
-      id: 32,
-      nome: "Ronnie Ervin",
-    },
-    {
-      id: 33,
-      nome: "Duffy Farish",
-    },
-    {
-      id: 34,
-      nome: "Alysia Yuryshev",
-    },
-    {
-      id: 35,
-      nome: "Haleigh Markushkin",
-    },
-  ]);
+  const [sugestoes, setSugestoes] = useState([]);
   const [íd, setId] = useState(1);
   const [data, setData] = useState(new Date());
   const [viewCalendar, setViewCalendar] = useState(false);
   const [observacao, setObservacao] = useState("");
   const valueRef = useRef();
-  const {user} = useAuth();
+  const { user } = useAuth();
+  const { createPayment } = usePaymentsDatabase();
+  const { getAllUsers } = useUsersDatabase();
 
   const handleCalendar = (event, selectedDate) => {
     setData(selectedDate);
@@ -182,7 +45,16 @@ export default function Payment() {
   };
 
   useEffect(() => {
-    valueRef?.current?.focus();
+    (async () => {
+      valueRef?.current?.focus();
+      try {
+        const users = await getAllUsers();
+        setSugestoes(users);
+        setId(users[0].id);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   }, []);
 
   const handleChangeValor = (value) => {
@@ -208,26 +80,32 @@ export default function Payment() {
       let valorLimpo = value.replace(",", "").replace(".", "");
       let valorConvertido = Number(valorLimpo) / 100;
       if (valorConvertido === 0 || isNaN(valorConvertido)) {
-        return 0
+        return 0;
       }
-      return valorConvertido
+      return valorConvertido;
     } catch (error) {
-      return valorConvertido
+      return valorConvertido;
     }
   };
 
   const handleSubmit = async () => {
     const payment = {
       user_id: íd,
-      user_cadastro: Number (user.user.id),
+      user_cadastro: Number(user.user.id),
       valor_pago: convertValue(valor),
       data_pagamento: data,
       observacao,
     };
 
     try {
-      const result = await paymentSchema.parseAsync(payment)  
-      console.log(result);
+      const result = await paymentSchema.parseAsync(payment);
+      const { insertedID } = await createPayment(payment);
+      console.log(insertedID);
+      setValor("0,00");
+      setId(sugestoes[0].id);
+      setData(new Date());
+      setObservacao("");
+      valueRef?.current?.focus();
     } catch (error) {
       console.log(error);
     }
@@ -289,7 +167,10 @@ export default function Payment() {
           />
         </View>
         <View style={styles.contentButtons}>
-          <TouchableOpacity style={[styles.button, styles.saveButton]} onPress={handleSubmit}>
+          <TouchableOpacity
+            style={[styles.button, styles.saveButton]}
+            onPress={handleSubmit}
+          >
             <Text style={styles.buttonText}>Salvar</Text>
           </TouchableOpacity>
 
