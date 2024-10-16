@@ -6,7 +6,7 @@ export default function About() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Sobre</Text>
-        <TouchableOpacity style={styles.button} onPress={() => { router.replace("/") }}>
+        <TouchableOpacity style={styles.button} onPress={() => { router.back() }}>
           <Text style={styles.buttonText}>Voltar</Text>
         </TouchableOpacity>
       </View>
