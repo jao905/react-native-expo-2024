@@ -36,22 +36,14 @@ export function usePaymentsDatabase() {
   }
 
   async function getPayments() {
-    const statment = await database.prepareAsync(`
-        SELECT * FROM payments;
-        `);
-
     try {
-      const result = await statment.executeAsync();
-      const { rows } = result;
-      const data = rows.map((row)) => row);
-      return { data };
+      const payments = await database.getAllAsync("SELECT * FROM payments");
+      return payments;
     } catch (error) {
       console.log(error);
       throw error;
-    } finally {
-      await statment.finalizeAsync();
     }
   }
 
-  return { createPayment };
+  return { createPayment, getPayments };
 }
