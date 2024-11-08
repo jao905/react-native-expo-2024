@@ -12,7 +12,7 @@ import {
   View,
 } from "react-native";
 import { z } from "zod";
-import { usePaymentsDatabase } from "../../database/usePaymentsDataBase";
+import { usePaymentsDatabase } from "../../database/usePaymentsDatabase";
 import { useUsersDatabase } from "../../database/useUsersDatabase";
 import { useAuth } from "../../hooks/Auth/index";
 
