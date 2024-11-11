@@ -34,7 +34,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Aplicativo Pronto para Usar</Text>
+      <Text style={styles.title}>PastoMais</Text>
 
       <View style={styles.inputbox}>
         <Ionicons name="mail-open-outline" size={20} color="#666" />
@@ -77,6 +77,13 @@ export default function App() {
         onPress={() => BackHandler.exitApp()}
       >
         <Text style={styles.smallButtonText}>Sair do Aplicativo</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity 
+        style={styles.smallButton}
+        onPress={() => router.push("/maintenance")}
+      >
+        <Text style={styles.smallButtonText}>Banco de Dados</Text>
       </TouchableOpacity>
       
       <StatusBar style="auto" />
