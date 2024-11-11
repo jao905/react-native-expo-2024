@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { usePaymentsDatabase } from "../../database/usePaymentsDatabase";
 import { FlashList } from "@shopify/flash-list";
 import { formatDateToBrazilian } from "../../utils/formatData";
@@ -34,8 +34,8 @@ export default function List() {
   }, []);
 
   renderItem = ({ item }) => (
-    <View style={{ flexDirection: "row", margin: 5 , margin: 10, padding: 3 , backgroundColor: "lightgray", borderRadius: 15 }}>
-      <View style={{ flex: 1  , gap:5}}>
+    <View style={styles.itemContainer}>
+      <View style={{ flex: 1 , gap:5}}>
         <Text style={{ fontFamily:"bold" , fontSize: 18, textTransform: "uppercase"  }}>{item.nome}</Text>
         <View style={{ flexDirection: "row", gap: 10}}>
           <Text style={{ fontFamily:"regular" }} > {formatDateToBrazilian(item.data_pagamento || new Date())} </Text>
@@ -49,7 +49,7 @@ export default function List() {
   );
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
        <View style={{ flex: 1 }}>
         <FlashList
           data={data}
@@ -63,3 +63,18 @@ export default function List() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#E8F5E9", // Fundo verde clarinho moderno
+    padding: 10,
+  },
+  itemContainer: {
+    flexDirection: "row",
+    margin: 5,
+    padding: 3,
+    backgroundColor: "lightgray",
+    borderRadius: 10,
+  },
+})

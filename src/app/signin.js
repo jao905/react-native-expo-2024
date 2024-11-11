@@ -7,6 +7,7 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { useAuth } from "../hooks/Auth";
 import { router } from "expo-router";
@@ -34,10 +35,13 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>PastoMais</Text>
-
+      <View style={styles.logoContainer}>
+        {/* <Image source={require('./path/to/logo.png')} style={styles.logo} /> */}
+      </View>
+      <Text style={styles.appTitle}>PastoMais</Text>
+      <Text style={styles.subtitle}>Bem-vindo! Faça login para continuar.</Text>
       <View style={styles.inputbox}>
-        <Ionicons name="mail-open-outline" size={20} color="#666" />
+        <Ionicons name="mail-open-outline" size={20} color="#4caf50" />
         <TextInput
           style={styles.emailinput}
           placeholder="E-mail"
@@ -47,7 +51,7 @@ export default function App() {
       </View>
 
       <View style={styles.inputbox}>
-        <Ionicons name="lock-closed-outline" size={20} color="#666" />
+        <Ionicons name="lock-closed-outline" size={20} color="#4caf50" />
         <TextInput
           style={styles.emailinput}
           placeholder="Senha"
@@ -59,13 +63,13 @@ export default function App() {
           <Ionicons
             name={passwordVisibility ? "eye-off-outline" : "eye-outline"}
             size={20}
-            color="#666"
+            color="#4caf50"
           />
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.smallButton} onPress={handleEntrarSuper}>
-        <Text style={styles.smallButtonText}>Entrar</Text>
+      <TouchableOpacity style={styles.largeButton} onPress={handleEntrarSuper}>
+        <Text style={styles.largeButtonText}>Entrar</Text>
       </TouchableOpacity>
       
       <TouchableOpacity style={styles.smallButton} onPress={() => router.push("/about")}>
@@ -94,50 +98,78 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#e0f7e0", // Fundo verde claro moderno
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
   },
-  title: {
-    fontFamily: "bold",
-    fontSize: 24,
+  logoContainer: {
+    alignItems: 'center',
     marginBottom: 20,
-    color: "#333",
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    resizeMode: 'contain',
+  },
+  appTitle: {
+    fontSize: 32,
+    fontWeight: "bold",
+    color: "#1b5e20", // Verde mais escuro
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 18,
+    color: "#388e3c", // Verde moderno
+    marginBottom: 20,
   },
   inputbox: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 10,
-    marginHorizontal: 20,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 19,
     backgroundColor: "#fff",
+    borderRadius: 15,
+    padding: 10,
+    marginBottom: 20,
+    width: "100%",
     shadowColor: "#000",
-    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
     shadowRadius: 5,
-    elevation: 3, // Para Android
   },
   emailinput: {
     flex: 1,
-    fontFamily: "regular",
+    marginLeft: 10,
+    fontSize: 16,
+    color: "#000",
+  },
+  largeButton: {
+    backgroundColor: "#388e3c", // Verde mais moderno e vibrante
+    padding: 15,
+    borderRadius: 50,
+    alignItems: "center",
+    marginTop: 10,
+    width: "100%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+  },
+  largeButtonText: {
     fontSize: 18,
-    paddingHorizontal: 10,
+    color: "#fff",
+    fontWeight: "bold",
   },
   smallButton: {
-    backgroundColor: "gray",
-    borderRadius: 25,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    marginVertical: 5,
-    width: "80%", // Largura ajustada
+    backgroundColor: "#388e3c", // Verde mais claro e moderno
+    padding: 15,
+    borderRadius: 20,
     alignItems: "center",
+    marginTop: 10,
+    width: "100%",
   },
   smallButtonText: {
-    color: "#fff",
     fontSize: 16,
+    color: "#fff",
     fontWeight: "bold",
   },
 });
