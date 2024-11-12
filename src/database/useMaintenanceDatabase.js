@@ -9,13 +9,11 @@ export function useMaintenanceDatabase() {
         //delete ----> apaga os dados da tabela/entidade
         //drop ----> apaga a tabela/entidade
         try {
-          database.execAsync(
-            `DROP INDEX IF EXISTS idx_payments_data_pagamento;`
-          );
-          database.execAsync(`DROP INDEX IF EXISTS idx_users_nome;`);
-          database.execAsync(`DROP TABLE IF EXISTS payments;`);
-          database.execAsync(`DROP TABLE IF EXISTS users;`);
-          database.execAsync(`
+         await database.execAsync(`DROP INDEX IF EXISTS idx_payments_data_pagamento;`);
+         await database.execAsync(`DROP INDEX IF EXISTS idx_users_nome;`);
+         await database.execAsync(`DROP TABLE IF EXISTS payments;`);
+         await database.execAsync(`DROP TABLE IF EXISTS users;`);
+         await database.execAsync(`
                  CREATE TABLE IF NOT EXISTS users (
                  id INTEGER PRIMARY KEY AUTOINCREMENT,
                  nome TEXT,
@@ -26,7 +24,7 @@ export function useMaintenanceDatabase() {
                  created_at DATE DEFAULT CURRENT_TIMESTAMP,
                  updated_at DATE
                 );`);
-          database.execAsync(`
+         await database.execAsync(`
                 CREATE TABLE IF NOT EXISTS payments (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
@@ -41,18 +39,21 @@ export function useMaintenanceDatabase() {
                  FOREIGN KEY (user_cadastro) REFERENCES users(id)
                 );
                 `);
-          database.execAsync(`CREATE INDEX IF NOT EXISTS idx_users_nome ON users (nome); `);
-          database.execAsync( `CREATE INDEX IF NOT EXISTS idx_payments_data_pagamento ON payments (data_pagamento);`);
-          database.execAsync(`INSERT OR REPLACE INTO users (nome, email, senha, role) VALUES ('Super', 'super@email.com', 'A123456a!', 'SUPER')`);
-          database.execAsync(`INSERT OR REPLACE INTO users (nome, email, senha, role) VALUES ('Admin', 'admin@email.com', 'A123456a!', 'ADMIN')`);
-          database.execAsync(`INSERT OR REPLACE INTO users (nome, email, senha, role) VALUES ('User', 'user@email.com', 'A123456a!', 'USER')`);
-
-
+                
+          //para toda pesquisa/ordencacao que for feita pelo nome, o banco de dados vai criar um indice para melhorar a performance      
+          await database.execAsync(`CREATE INDEX IF NOT EXISTS idx_users_nome ON users (nome); `);
+         await  database.execAsync( `CREATE INDEX IF NOT EXISTS idx_payments_data_pagamento ON payments (data_pagamento);`);
+     
+         
           
-            
-             
+          await database.execAsync(`INSERT OR REPLACE INTO users (nome, email, senha, role) VALUES ('Super', 'super@email.com', 'A123456a!', 'SUPER')`);
+          await database.execAsync(`INSERT OR REPLACE INTO users (nome, email, senha, role) VALUES ('Admin', 'admin@email.com', 'A123456a!', 'ADMIN')`);
+          await database.execAsync(`INSERT OR REPLACE INTO users (nome, email, senha, role) VALUES ('User', 'user@email.com', 'A123456a!', 'USER')`);
+
+          console.log("Database reset success ");
         } catch (error) {
           console.log("useMaintenanceDatabase resetDatabase error: ", error);
+          throw error;
         }
       });
       console.log("useMaintenanceDatabase resetDatabase success: ");
