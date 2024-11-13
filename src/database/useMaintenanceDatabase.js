@@ -55,10 +55,11 @@ export function useMaintenanceDatabase() {
           console.log("useMaintenanceDatabase resetDatabase error: ", error);
           throw error;
         }
-      });
+      }
+    );
       console.log("useMaintenanceDatabase resetDatabase success: ");
     } catch (error) {
-      console.log("useMaintenanceDatabase resetDatabase error: ", error);
+      console.error("useMaintenanceDatabase resetDatabase error: ", error);
     }
   }
 

@@ -4,9 +4,8 @@ import {
   DrawerItemList,
 } from "@react-navigation/drawer";
 import { Drawer } from "expo-router/drawer";
-import { Image, Text, TouchableOpacity, ViewComponent } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { View } from "react-native";
 import { useAuth } from "../../hooks/Auth/index";
 
 function CustomDrawerContent(props) {
@@ -95,6 +94,13 @@ const DrawerLayout = () => {
             drawerIcon: () => (
               <Ionicons name="card-outline" size={20} color="black" />
             ),
+          }}
+        />
+        <Drawer.Screen
+          name="details"
+          options={{
+            headerTitle: "Detalhes",
+            drawerItemStyle: { display: "none" }, // Oculta a entrada no menu
           }}
         />
       </Drawer>
