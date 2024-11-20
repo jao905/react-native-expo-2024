@@ -15,7 +15,7 @@ export const usePickImage = () => {
       });
 
       if (!result.canceled) {
-        console.log("pickImage", result.assets[0].uri);
+        // console.log("pickImage", result.assets[0].uri);
     const localUri = result.assets[0].uri;
     const filename = localUri.split('/').pop(); //nome do arquivo
     const newPath = `${directory}/${filename}`;
@@ -24,7 +24,7 @@ export const usePickImage = () => {
       from: localUri,
       to: newPath,
     });
-    console.log("newPath", newPath);
+    // console.log("newPath", newPath);
    //pega a pasta onde o arquivo está
     return filename;
       } else return ""
