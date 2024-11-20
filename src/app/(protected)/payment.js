@@ -216,23 +216,43 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 10,
-    backgroundColor: "#FAFAFA",
+    backgroundColor: "#C8E6C9", // Fundo verde clarinho
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: "black", // Tipografia moderna
     marginBottom: 20,
-    color: "#212121",
   },
   inputView: {
-    borderColor: "black",
+    borderColor: "#81C784", // Verde suave para bordas
     borderWidth: 1,
-    width: "90%", //AUMENTAR A LARGURA
+    width: "90%",
     margin: 10,
     borderRadius: 10,
-    alignItems: "center",
+    backgroundColor: "#FFFFFF", // Fundo branco nos campos
     flexDirection: "row",
     padding: 10,
+  },
+  inputValor: {
+    flex: 1,
+    textAlign: "right",
+    padding: 8,
+    color: "#388E3C", // Texto verde escuro
+  },
+  inputData: {
+    width: "100%",
+    textAlign: "center",
+    fontFamily: "regular",
+    fontSize: 18,
+    padding: 10,
+    color: "#388E3C", // Texto verde escuro
+  },
+  inputObservacao: {
+    fontFamily: "regular",
+    fontSize: 18,
+    flex: 1,
+    lineHeight: 20,
+    color: "#388E3C", // Texto verde escuro
   },
   contentButtons: {
     padding: 10,
@@ -248,35 +268,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   saveButton: {
-    backgroundColor: "gray",
+    backgroundColor: "#388E3C", // Verde escuro para botões de ação
   },
   continueButton: {
-    backgroundColor: "gray",
+    backgroundColor: "#388E3C", // Verde escuro para botões de ação
   },
   cancelButton: {
-    backgroundColor: "gray",
+    backgroundColor: "#388e3c", // Vermelho para cancelar
   },
   buttonText: {
-    color: "#FFFFFF",
+    color: "#FFFFFF", // Texto branco nos botões
     fontSize: 16,
     fontWeight: "bold",
-  },
-  inputValor: {
-    flex: 1,
-    textAlign: "right",
-    padding: 8,
-  },
-  inputData: {
-    width: "100%",
-    textAlign: "center",
-    fontFamily: "regular",
-    fontSize: 18,
-    padding: 10,
-  },
-  inputObservacao: {
-    fontFamily: "regular",
-    fontSize: 18,
-    flex: 1,
-    lineHeight: 20,
   },
 });

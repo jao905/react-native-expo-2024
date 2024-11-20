@@ -20,7 +20,9 @@ export function Banner() {
         <View key="1" style={styles.page}>
           <Image
             style={styles.image}
-            source={{ uri: "https://cptstatic.s3.amazonaws.com/imagens/enviadas/materias/materia29473/pastagem-cpt.jpg" }}
+            source={{
+              uri: "https://cptstatic.s3.amazonaws.com/imagens/enviadas/materias/materia29473/pastagem-cpt.jpg",
+            }}
           />
         </View>
 
@@ -28,7 +30,9 @@ export function Banner() {
         <View key="2" style={styles.page}>
           <Image
             style={styles.image}
-            source={{ uri: "https://www.sementesbonamigo.com.br/wp-content/uploads/2023/08/formacao-pastagens-jeito-certo-e1691261839591-1.jpg" }}
+            source={{
+              uri: "https://www.sementesbonamigo.com.br/wp-content/uploads/2023/08/formacao-pastagens-jeito-certo-e1691261839591-1.jpg",
+            }}
           />
         </View>
 
@@ -36,7 +40,9 @@ export function Banner() {
         <View key="3" style={styles.page}>
           <Image
             style={styles.image}
-            source={{ uri: "https://pastocomciencia.com.br/wp-content/uploads/2019/08/IMG_3975.jpg" }}
+            source={{
+              uri: "https://pastocomciencia.com.br/wp-content/uploads/2019/08/IMG_3975.jpg",
+            }}
           />
         </View>
       </PagerView>

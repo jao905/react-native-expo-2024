@@ -78,17 +78,18 @@ export default function App() {
 
       <TouchableOpacity 
         style={styles.smallButton}
+        onPress={() => router.push("/maintenance")}
+      >
+        <Text style={styles.smallButtonText}>Banco de Dados</Text>
+      </TouchableOpacity>
+      <TouchableOpacity 
+        style={styles.smallButton}
         onPress={() => BackHandler.exitApp()}
       >
         <Text style={styles.smallButtonText}>Sair do Aplicativo</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity 
-        style={styles.smallButton}
-        onPress={() => router.push("/maintenance")}
-      >
-        <Text style={styles.smallButtonText}>Banco de Dados</Text>
-      </TouchableOpacity>
+      
       
       <StatusBar style="auto" />
     </View>
@@ -98,7 +99,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e0f7e0", // Fundo verde claro moderno
+    backgroundColor: "#C8E6C9", // Fundo verde claro moderno
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
@@ -113,13 +114,14 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   appTitle: {
-    fontSize: 32,
-    fontWeight: "bold",
+    fontSize: 50,
+    // fontWeight: "bold",
+    fontFamily: "black",
     color: "#1b5e20", // Verde mais escuro
     marginBottom: 10,
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: 19,
     color: "#388e3c", // Verde moderno
     marginBottom: 20,
   },
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   largeButton: {
-    backgroundColor: "#388e3c", // Verde mais moderno e vibrante
+    backgroundColor: "rgba(0, 100, 0, 1)", // Verde mais moderno e vibrante
     padding: 15,
     borderRadius: 50,
     alignItems: "center",
@@ -160,7 +162,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   smallButton: {
-    backgroundColor: "#388e3c", // Verde mais claro e moderno
+    backgroundColor: "rgba(0, 100, 0, 1)", // Verde mais claro e moderno
     padding: 15,
     borderRadius: 20,
     alignItems: "center",

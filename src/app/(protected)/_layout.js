@@ -50,7 +50,7 @@ function CustomDrawerContent(props) {
           height: 50,
           padding: 10,
           margin: 10,
-          backgroundColor: "#388E3C",
+          backgroundColor: "rgba(0, 100, 0, 1)",
           borderRadius: 10,
         }}
       >

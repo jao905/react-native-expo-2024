@@ -4,11 +4,13 @@ import { usePaymentsDatabase } from "../../database/usePaymentsDatabase";
 import { useEffect, useState } from "react";
 import { formatDateToBrazilian } from "../../utils/formatData";
 import { formatCurrencyBRL } from "../../utils/formatCurrent";
+import { usePickImage } from "../../utils/pickImage"; // Importação correta
 
 export default function Details() {
   const { id } = useLocalSearchParams()
   const { getPayment } = usePaymentsDatabase()
   const [payment, setPayment] = useState({})
+  const { pickImage } = usePickImage(); // Uso correto
 
   const fetchData = async () => {
     try {
@@ -24,6 +26,18 @@ export default function Details() {
     fetchData();
   }, [id]);
 
+
+  const handlePickImage = async () => {
+    try {
+      const image = await pickImage();
+      console.log("Image:" , image);
+    } catch (error) {
+      console.log("handlePickImage" , error);
+      Alert.alert("Erro ao buscar imagem")
+    }
+  }
+
+  
   return (
     <View style={styles.container}>
       <View>
@@ -43,7 +57,7 @@ export default function Details() {
       </View>
       <View style={styles.containerButtons}>
         <Button title="Editar" disabled />
-        <Button title="Imagem" onPress={() => {}} />
+        <Button title="Imagem" onPress={handlePickImage} />
         <Button title="Remover Imagem" onPress={() => {}} />
         <Button title="Voltar" onPress={() => router.push("list")} />
       </View>
