@@ -16,6 +16,7 @@ export async function initializeDatabase(database) {
              email TEXT NOT NULL UNIQUE,
              senha TEXT NOT NULL DEFAULT 'A123456a!',
              role TEXT NOT NULL DEFAULT 'USER',
+             imagem TEXT DEFAULT "",
              created_at DATE DEFAULT CURRENT_TIMESTAMP,
              updated_at DATE
             );

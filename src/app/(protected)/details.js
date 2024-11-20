@@ -1,7 +1,9 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { Alert, Button, StyleSheet, Text, View } from "react-native";
+import { Alert, Button, Image, StyleSheet, Text, View } from "react-native";
 import { usePaymentsDatabase } from "../../database/usePaymentsDatabase";
 import { useEffect, useState } from "react";
+import { formatDateToBrazilian } from "../../utils/formatData";
+import { formatCurrencyBRL } from "../../utils/formatCurrent";
 
 export default function Details() {
   const { id } = useLocalSearchParams()
@@ -24,15 +26,20 @@ export default function Details() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.estilo}>
-        <Text>Nome: {payment?.nome}</Text>
-        <Text>Data de pagamento: {payment?.data_pagamento}</Text>
-        <Text>Num Recibo: {payment?.numero_recibo}</Text>
-        <Text>Valor Pago: {payment?.valor_pago}</Text>
-        <Text>Observação: {payment?.observacao}</Text>
+      <View>
+        <Text style={styles.text}>Nome: {payment?.nome ?? 'N/A'}</Text>
+        <Text style={styles.text}>Data de pagamento: {payment?.data_pagamento ? formatDateToBrazilian(payment.data_pagamento) : 'N/A'}</Text>
+        <Text style={styles.text}>Num Recibo: {payment?.numero_recibo ?? 'N/A'}</Text>
+        <Text style={styles.text} >Valor Pago: {payment?.valor_pago ? formatCurrencyBRL(payment.valor_pago) : 'N/A'}</Text>
+        <Text style={styles.text}>Observação: {payment?.observacao ?? 'N/A'}</Text>
       </View>
-      <View style={{ flex: 1 }}>
-        <Text>Não há imagem cadastrada</Text>
+      <View style={styles.contentImage}>
+        {
+          !!payment?.imagem ? (
+            <Image source={{ uri: payment.imagem }} style={{ width: 200, height: 200 }} />
+          ) : <Text>Não há imagem cadastrada</Text>
+        }
+        
       </View>
       <View style={styles.containerButtons}>
         <Button title="Editar" disabled />
@@ -49,12 +56,17 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
   },
-  estilo: {
-    fontFamily: "bold",
-    fontSize: 50,
-  },
   containerButtons: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  contentImage:{
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 18,
+    fontFamily: "regular"
+  }
 });
